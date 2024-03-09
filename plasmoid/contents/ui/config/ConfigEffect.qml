@@ -1,12 +1,15 @@
-import QtQuick 2.0
+// import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0 as QQC2
 
-import org.kde.kirigami 2.3 as Kirigami
+// import org.kde.kirigami 2.3 as Kirigami
+import org.kde.kirigami 2.5 as Kirigami
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.newstuff 1.1 as NewStuff
 
 import "utils.js" as Utils
+import org.kde.plasma.plasma5support as Plasma5Support
 
 Kirigami.FormLayout {
     id:root
@@ -22,14 +25,14 @@ Kirigami.FormLayout {
     NewStuff.Button {
         downloadNewWhat: i18n("Effects")
         configFile: Utils.get_root() + "/config/panon.knsrc"
-        onChangedEntriesChanged:{
+        //onChangedEntriesChanged:{
             /*
              * Triggers the executable DataSource to execute this line again: 
              * if(shaderOptions.count<1)return[sh_get_visual_effects]
              * So that the list model shaderOptions will be refreshed.
              */
-            shaderOptions.clear()
-        }
+            //shaderOptions.clear()
+        //}
     }
 
     RowLayout {
@@ -71,7 +74,8 @@ Kirigami.FormLayout {
     property var effect_arguments:[]
 
      
-    PlasmaCore.DataSource {
+    // PlasmaCore.DataSource {
+    Plasma5Support.DataSource {
         engine: 'executable'
         connectedSources: {
             // Load visual effects when shaderOptions is empty.

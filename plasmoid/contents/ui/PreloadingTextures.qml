@@ -1,6 +1,9 @@
-import QtQuick 2.0
+// import QtQuick 2.0
+import QtQuick 2.15
+import org.kde.plasma.plasmoid 2.0
 
-Item{
+// Item{
+PlasmoidItem {
 
     property variant w:Image{visible:false}
     property variant s:Image{visible:false}

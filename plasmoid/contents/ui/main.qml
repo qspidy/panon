@@ -1,16 +1,17 @@
-import QtQuick 2.0
+// import QtQuick 2.0
+import QtQuick 2.15
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 
-Item {
+PlasmoidItem {
 
     readonly property var cfg:plasmoid.configuration
 
-    Plasmoid.preferredRepresentation: Plasmoid.compactRepresentation
+    preferredRepresentation: compactRepresentation
 
-    Plasmoid.compactRepresentation: Spectrum{}
+    compactRepresentation: Spectrum{}
 
-    Plasmoid.toolTipItem: cfg.hideTooltip?tooltipitem:null
+    toolTipItem: cfg.hideTooltip?tooltipitem:null
 
     Plasmoid.backgroundHints: PlasmaCore.Types.DefaultBackground | PlasmaCore.Types.ConfigurableBackground
 

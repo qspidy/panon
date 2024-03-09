@@ -1,6 +1,9 @@
-import QtQuick 2.0
-import QtWebSockets 1.0
+// import QtQuick 2.0
+import QtQuick 2.15
+import QtWebSockets 1.6
+import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.plasma5support as Plasma5Support
 import "utils.js" as Utils
 /*
  * This module starts a python back-end client, 
@@ -12,7 +15,8 @@ import "utils.js" as Utils
  * may be used before they are loaded, which will cause 
  * flikering problems.
  */
-Item{
+// Item{
+PlasmoidItem {
 
     readonly property var cfg:plasmoid.configuration
 
@@ -60,7 +64,8 @@ Item{
         return cmd
     }
 
-    PlasmaCore.DataSource {
+    // PlasmaCore.DataSource {
+    Plasma5Support.DataSource {
         engine: 'executable'
         connectedSources: [startBackEnd]
         onNewData:{

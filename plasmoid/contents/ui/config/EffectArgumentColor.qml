@@ -1,5 +1,7 @@
-import QtQuick 2.0
-import org.kde.kirigami 2.3 as Kirigami
+// import QtQuick 2.0
+import QtQuick 2.15
+// import org.kde.kirigami 2.3 as Kirigami
+import org.kde.kirigami 2.5 as Kirigami
 import org.kde.kquickcontrols 2.0 as KQuickControls
 
 KQuickControls.ColorButton {

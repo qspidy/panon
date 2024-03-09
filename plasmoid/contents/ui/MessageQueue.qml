@@ -1,11 +1,14 @@
-import QtQuick 2.0
+// import QtQuick 2.0
+import QtQuick 2.15
+import org.kde.plasma.plasmoid 2.0
 
 /*
  * The length of this queue is 2. The queue rejects new 
  * messages before the images of old messages are loaded.
  */
 
-Item{
+// Item{
+PlasmoidItem {
     // When only spectrum data is enabled, receive raw data to reduce cpu usage.
     property bool only_spectrum:false
 
