@@ -1,10 +1,12 @@
 // vim: set ft=glsl:
-uniform bool colorSpaceHSL;
-uniform bool colorSpaceHSLuv;
-uniform int hueFrom;
-uniform int hueTo;
-uniform int saturation;
-uniform int lightness;
+layout(std140, binding = 0) uniform buf_utils {
+    bool colorSpaceHSL;
+    bool colorSpaceHSLuv;
+    int hueFrom;
+    int hueTo;
+    int saturation;
+    int lightness;
+};
 
 
 

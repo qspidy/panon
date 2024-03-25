@@ -1,10 +1,15 @@
 // vim: set ft=glsl:
-out vec4 out_Color;
-in mediump vec2 qt_TexCoord0;
 // gravity property: North (1), West (4), East (3), South (2)
-uniform int coord_gravity;
-uniform float qt_Opacity;
-uniform bool coord_inversion;
+
+layout(location=0) out vec4 out_Color;
+layout(location=0) in mediump vec2 qt_TexCoord0;
+layout(std140, binding = 0) uniform buf_foot {
+    // vim: set ft=glsl:
+    // gravity property: North (1), West (4), East (3), South (2)
+    int coord_gravity;
+    float qt_Opacity;
+    bool coord_inversion;
+};
 
 vec2 getCoord() {
     switch(coord_gravity) {

@@ -7,11 +7,12 @@ import QtQuick.Controls 2.0 as QQC2
 import org.kde.kirigami 2.5 as Kirigami
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.newstuff 1.1 as NewStuff
+import org.kde.kcmutils as KCM
 
 import "utils.js" as Utils
 import org.kde.plasma.plasma5support as Plasma5Support
 
-Kirigami.FormLayout {
+KCM.SimpleKCM {
     id:root
 
     anchors.right: parent.right
@@ -21,44 +22,6 @@ Kirigami.FormLayout {
 
     property var cfg_effectArgValues:[]
     property bool cfg_effectArgTrigger:false
-
-    NewStuff.Button {
-        downloadNewWhat: i18n("Effects")
-        configFile: Utils.get_root() + "/config/panon.knsrc"
-        //onChangedEntriesChanged:{
-            /*
-             * Triggers the executable DataSource to execute this line again: 
-             * if(shaderOptions.count<1)return[sh_get_visual_effects]
-             * So that the list model shaderOptions will be refreshed.
-             */
-            //shaderOptions.clear()
-        //}
-    }
-
-    RowLayout {
-        Kirigami.FormData.label: i18n("Effect:")
-        Layout.fillWidth: true
-
-        QQC2.ComboBox {
-            id:visualeffect
-            model: ListModel {
-                id: shaderOptions
-            }
-            textRole: 'name'
-            onCurrentIndexChanged:cfg_visualEffect= shaderOptions.get(currentIndex).id
-        }
-    }
-
-    RowLayout {
-        Kirigami.FormData.label: i18n("Hint:")
-        Layout.fillWidth: true
-        visible:hint.text.length>0
-        QQC2.Label {
-            id:hint
-            text:''
-            onLinkActivated: Qt.openUrlExternally(link)
-        }
-    }
 
 
     readonly property string sh_get_visual_effects:Utils.chdir_scripts_root()+'python3 -m panon.effect.get_effect_list'
@@ -73,7 +36,51 @@ Kirigami.FormLayout {
     property bool firstTimeLoadArgs:true
     property var effect_arguments:[]
 
-     
+    Kirigami.FormLayout {
+        id: formLayout
+        NewStuff.Button {
+            downloadNewWhat: i18n("Effects")
+            configFile: Utils.get_root() + "/config/panon.knsrc"
+            //onChangedEntriesChanged:{
+                ///*
+                //* Triggers the executable DataSource to execute this line again: 
+                //* if(shaderOptions.count<1)return[sh_get_visual_effects]
+                //* So that the list model shaderOptions will be refreshed.
+                //*/
+                //shaderOptions.clear()
+            //}
+        }
+
+        RowLayout {
+            Kirigami.FormData.label: i18n("Effect:")
+            Layout.fillWidth: true
+
+            QQC2.ComboBox {
+                id:visualeffect
+                model: ListModel {
+                    id: shaderOptions
+                }
+                textRole: 'name'
+                onCurrentIndexChanged:cfg_visualEffect= shaderOptions.get(currentIndex).id
+            }
+        }
+
+        RowLayout {
+            Kirigami.FormData.label: i18n("Hint:")
+            Layout.fillWidth: true
+            visible:hint.text.length>0
+            QQC2.Label {
+                id:hint
+                text:''
+                onLinkActivated: Qt.openUrlExternally(link)
+            }
+        }
+
+
+
+    }
+
+    
     // PlasmaCore.DataSource {
     Plasma5Support.DataSource {
         engine: 'executable'
@@ -115,7 +122,7 @@ Kirigami.FormLayout {
                             }[arg["type"]]);
                         else
                             component= Qt.createComponent("EffectArgument.qml");
-                        var obj= component.createObject(root, {
+                        var obj= component.createObject(formLayout, {
                             index:index,
                             root:root,
                             effectArgValues:cfg_effectArgValues,
@@ -142,4 +149,5 @@ Kirigami.FormLayout {
             }
         }
     }
+
 }

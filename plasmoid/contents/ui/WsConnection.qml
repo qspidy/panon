@@ -1,6 +1,6 @@
 // import QtQuick 2.0
 import QtQuick 2.15
-import QtWebSockets 1.6
+import QtWebSockets 1.1
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasma5support as Plasma5Support
@@ -15,10 +15,10 @@ import "utils.js" as Utils
  * may be used before they are loaded, which will cause 
  * flikering problems.
  */
-// Item{
-PlasmoidItem {
+Item{
+// PlasmoidItem {
 
-    readonly property var cfg:plasmoid.configuration
+    // readonly property var cfg:Plasmoid.configuration
 
     property variant queue
 
@@ -38,29 +38,30 @@ PlasmoidItem {
         if(server.port==0) return '';
         if(shaderSourceReader.image_shader_source=='') return ''
         var cmd=Utils.chdir_scripts_root()+'exec python3 -m panon.backend.client '
-        cmd+=server.url  //+':'+server.port
-        var be=['pyaudio','soundcard','fifo'][cfg.backendIndex]
+        cmd+=server.url //+':'+server.port
+        var be=['pyaudio','soundcard','fifo'][Plasmoid.configuration.backendIndex]
         cmd+=' --backend='+be
         if(be=='soundcard')
-            cmd+=' --device-index="'+cfg.pulseaudioDevice+'"'
+            cmd+=' --device-index="'+Plasmoid.configuration.pulseaudioDevice+'"'
         if(be=='fifo')
-            cmd+=' --fifo-path='+cfg.fifoPath
-        cmd+=' --fps='+cfg.fps
-        if(cfg.reduceBass)
+            cmd+=' --fifo-path='+Plasmoid.configuration.fifoPath
+        cmd+=' --fps='+Plasmoid.configuration.fps
+        if(Plasmoid.configuration.reduceBass)
             cmd+=' --reduce-bass'
-        if(cfg.glDFT)
+        if(Plasmoid.configuration.glDFT)
             cmd+=' --gldft'
-        if(cfg.debugBackend)
+        if(Plasmoid.configuration.debugBackend)
             cmd+=' --debug'
-        cmd+=' --bass-resolution-level='+cfg.bassResolutionLevel
-        if(cfg.debugBackend){
-            console.log('Executing: '+cmd)
-            cmd='echo do nothing'
-        }
+        cmd+=' --bass-resolution-level='+Plasmoid.configuration.bassResolutionLevel
         if(shaderSourceReader.enable_iChannel0)
             cmd+=' --enable-wave-data'
         if(shaderSourceReader.enable_iChannel1)
             cmd+=' --enable-spectrum-data'
+        //var cmd=Utils.chdir_scripts_root()+'python3 -m panon.backend.client --backend=soundcard --device-index="allspeakers" --fps=30 --reduce-bass --debug --enable-spectrum-data ws://127.0.0.1:8765'
+        if(Plasmoid.configuration.debugBackend){
+            console.log('Executing: '+cmd)
+            cmd='echo do nothing'
+        }
         return cmd
     }
 
@@ -70,8 +71,8 @@ PlasmoidItem {
         connectedSources: [startBackEnd]
         onNewData:{
             // Show back-end errors.
-            console.log(data.stdout)
-            console.log(data.stderr)
+            //console.log(data.stdout)
+            //console.log(data.stderr)
         }
     }
 

@@ -1,9 +1,9 @@
 function get_root() {
-    var p_ui = plasmoid.file("ui")
-    p_ui = p_ui.split('/')
-    p_ui.pop(-1)
-    return p_ui.join('/')
-    //return "/home/<user>/.local/share/plasma/plasmoids/panon/contents"
+    //var p_ui = plasmoid.file("ui")
+    //p_ui = p_ui.split('/')
+    //p_ui.pop(-1)
+    //return p_ui.join('/')
+    return "/home/<user>/.local/share/plasma/plasmoids/panon/contents"
 }
 
 function get_scripts_root() {

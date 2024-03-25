@@ -1,6 +1,6 @@
-#version 130
+#version 450
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
+void mainImage(out vec4 fragColor, in vec2 fragCoord ) {
     fragCoord=fragCoord/iResolution.xy;
     vec4 sample1= texture(iChannel1, vec2(fragCoord.x,0)) ;
     float h=fragCoord.y;

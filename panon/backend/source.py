@@ -174,7 +174,7 @@ class SoundCardSource:
 
 
 if __name__ == '__main__':
-    sample = PyaudioSource(2, 44100, None, 60)
+    sample = SoundCardSource(2, 44100, "allspeakers", 60)
     print('Make sure you are playing music when run this script')
 
     data = sample.read()

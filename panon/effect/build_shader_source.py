@@ -12,6 +12,7 @@ import json, base64
 from .. import logger
 
 import sys
+import subprocess
 logger.log('argv: %s', sys.argv[1:])
 
 effect_id, effect_arguments = json.loads(base64.b64decode(sys.argv[1]))
@@ -29,6 +30,36 @@ for e in effect_list:
 for e in effect_list:
     if e.id == effect_id:
         effect = e
+
+
+#def frag2qsb(source):
+#    cmd = "/usr/lib/qt6/bin/qsb"
+#    
+#    # Run the qsb command and capture the output
+#    completed_process = subprocess.run([cmd], input=source, text=True, capture_output=True)
+#
+#    # Check if the command executed successfully
+#    if completed_process.returncode != 0:
+#        # Handle the error, raise an exception, or return None
+#        print("Error executing qsb command:", completed_process.stderr)
+#        return None
+#
+#    # Return the output of the qsb command
+#    return completed_process.stdout
+def frag2qsb(source):
+    cmd = "/usr/lib/qt6/bin/qsb"
+    tmpfragfile = "../shaders/tmpsource.frag"
+    tmpqsbfile = tmpfragfile + ".qsb"
+    # Write source to tmpfile
+    with open(tmpfragfile, 'w') as file:
+        file.write(source)
+
+    cmd += " -o " + tmpqsbfile + " " + tmpfragfile
+    subprocess.run(cmd, shell=True)
+    
+    with open(tmpqsbfile, 'r', encoding='latin-1') as file:
+        source = file.read()
+    return "../shaders/" + tmpqsbfile
 
 
 def hex2vec4(value):
@@ -84,7 +115,7 @@ def build_source(files, main_file: Path, meta_file: Path = None, effect_argument
                 source += line
         else:
             source += read_file(path)
-    return source
+    return frag2qsb(source)
 
 
 def texture_uri(path: Path):

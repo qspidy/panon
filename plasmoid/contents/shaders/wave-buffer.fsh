@@ -1,13 +1,15 @@
-#version 130
+#version 450
 
-out vec4 out_Color;
-in mediump vec2 qt_TexCoord0;
+layout(location=0) out vec4 out_Color;
+layout(location=0) in mediump vec2 qt_TexCoord0;
 
-uniform sampler2D newWave; 
-uniform sampler2D waveBuffer; 
+layout(set = 0, binding = 0) uniform sampler2D newWave; 
+layout(set = 0, binding = 1) uniform sampler2D waveBuffer; 
 
-uniform int     bufferSize;
-uniform int     newWaveSize;
+layout(std140, binding = 0) uniform buf_wave {
+    int     bufferSize;
+    int     newWaveSize;
+};
 
 void main() {
     float x=qt_TexCoord0.x*bufferSize;

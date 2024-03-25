@@ -9,23 +9,23 @@ import QtQuick.Controls 2.0 as QQC2
 
 import "utils.js" as Utils
 
-// Item{
+//Item{
 PlasmoidItem {
     id:root
-    readonly property var cfg:plasmoid.configuration
+    //readonly property var Plasmoid.configuration.Plasmoid.configuration
 
     property bool vertical: (plasmoid.formFactor == PlasmaCore.Types.Vertical)
 
-    // Layout.minimumWidth:  cfg.autoHide ? animatedMinimum: -1
+    // Layout.minimumWidth:  Plasmoid.configuration.autoHide ? animatedMinimum: -1
     Layout.preferredWidth: vertical ?-1: animatedMinimum
     Layout.preferredHeight: vertical ?  animatedMinimum:-1
-    Layout.maximumWidth:cfg.autoHide?Layout.preferredWidth:-1
-    Layout.maximumHeight:cfg.autoHide?Layout.preferredHeight:-1
+    Layout.maximumWidth:Plasmoid.configuration.autoHide?Layout.preferredWidth:-1
+    Layout.maximumHeight:Plasmoid.configuration.autoHide?Layout.preferredHeight:-1
 
     // Gravity property: Center(0), North (1), West (4), East (3), South (2)
     readonly property int gravity:{
-        if(cfg.gravity>0)
-            return cfg.gravity
+        if(Plasmoid.configuration.gravity>0)
+            return Plasmoid.configuration.gravity
         switch(plasmoid.location){
             case PlasmaCore.Types.TopEdge:
             return 2
@@ -39,16 +39,16 @@ PlasmoidItem {
         return 1
     }
 
-    property int animatedMinimum:(!cfg.autoHide) || audioAvailable? cfg.preferredWidth:0
+    property int animatedMinimum:(!Plasmoid.configuration.autoHide) || audioAvailable? Plasmoid.configuration.preferredWidth:0
 
-    Layout.fillWidth: vertical? false:cfg.autoExtend
-    Layout.fillHeight: vertical? cfg.autoExtend :false
+    Layout.fillWidth: vertical? false:Plasmoid.configuration.autoExtend
+    Layout.fillHeight: vertical? Plasmoid.configuration.autoExtend :false
 
 
     ShaderEffect {
         id:mainSE
-        readonly property bool colorSpaceHSL: cfg.colorSpaceHSL
-        readonly property bool colorSpaceHSLuv:cfg.colorSpaceHSLuv
+        readonly property bool colorSpaceHSL: Plasmoid.configuration.colorSpaceHSL
+        readonly property bool colorSpaceHSLuv:Plasmoid.configuration.colorSpaceHSLuv
 
         Behavior on hueFrom{ NumberAnimation { duration: 1000} }
         Behavior on hueTo{ NumberAnimation { duration: 1000} }
@@ -56,28 +56,28 @@ PlasmoidItem {
         Behavior on lightness{ NumberAnimation { duration: 1000} }
 
         property int hueFrom    :{
-            if(cfg.colorSpaceHSL)
-                return cfg.hslHueFrom
-            else if(cfg.colorSpaceHSLuv)
-                return cfg.hsluvHueFrom
+            if(Plasmoid.configuration.colorSpaceHSL)
+                return Plasmoid.configuration.hslHueFrom
+            else if(Plasmoid.configuration.colorSpaceHSLuv)
+                return Plasmoid.configuration.hsluvHueFrom
         }
         property int hueTo    :{
-            if(cfg.colorSpaceHSL)
-                return cfg.hslHueTo
-            else if(cfg.colorSpaceHSLuv)
-                return cfg.hsluvHueTo
+            if(Plasmoid.configuration.colorSpaceHSL)
+                return Plasmoid.configuration.hslHueTo
+            else if(Plasmoid.configuration.colorSpaceHSLuv)
+                return Plasmoid.configuration.hsluvHueTo
         }
         property int saturation  :{
-            if(cfg.colorSpaceHSL)
-                return cfg.hslSaturation
-            else if(cfg.colorSpaceHSLuv)
-                return cfg.hsluvSaturation
+            if(Plasmoid.configuration.colorSpaceHSL)
+                return Plasmoid.configuration.hslSaturation
+            else if(Plasmoid.configuration.colorSpaceHSLuv)
+                return Plasmoid.configuration.hsluvSaturation
         }
         property int lightness   :{
-            if(cfg.colorSpaceHSL)
-                return cfg.hslLightness
-            else if(cfg.colorSpaceHSLuv)
-                return cfg.hsluvLightness
+            if(Plasmoid.configuration.colorSpaceHSL)
+                return Plasmoid.configuration.hslLightness
+            else if(Plasmoid.configuration.colorSpaceHSLuv)
+                return Plasmoid.configuration.hsluvLightness
         }
 
         readonly property variant iMouse:iMouseArea.i
@@ -98,7 +98,7 @@ PlasmoidItem {
 
 
         property int coord_gravity:root.gravity
-        property bool coord_inversion:cfg.inversion
+        property bool coord_inversion:Plasmoid.configuration.inversion
 
         anchors.fill: parent
         blending: true
@@ -184,15 +184,15 @@ PlasmoidItem {
         id:console_output
         anchors.fill: parent
         color: PlasmaCore.ColorScope.textColor
-        text:error_message+(cfg.showFps?fps_message:"")
+        text:error_message+(Plasmoid.configuration.showFps?fps_message:"")
     }
 
-    MouseArea {
+    compactRepresentation: MouseArea {
         id:iMouseArea
         hoverEnabled :true
         anchors.fill: parent
 
-        readonly property double current_x:root.gravity<3?(cfg.inversion?(mainSE.width- mouseX):mouseX):(cfg.inversion?mouseY:(mainSE.height-mouseY))
+        readonly property double current_x:root.gravity<3?(Plasmoid.configuration.inversion?(mainSE.width- mouseX):mouseX):(Plasmoid.configuration.inversion?mouseY:(mainSE.height-mouseY))
         readonly property double current_y:[mainSE.height- mouseY,mouseY ,mainSE.width-mouseX ,mouseX ][root.gravity-1]
         property double lastdown_x
         property double lastdown_y
@@ -229,14 +229,14 @@ PlasmoidItem {
                 mainSE.iTime=(time_current_frame-time_first_frame) /1000.0
                 mainSE.iTimeDelta=deltatime
                 mainSE.iFrame+=1
-                if(cfg.showFps)
+                if(Plasmoid.configuration.showFps)
                     if(mainSE.iFrame%30==1){
                         fps_message='fps:'+ Math.round(1000*30/(time_current_frame-time_fps_start))
                         time_fps_start=time_current_frame
                     }
 
                         
-                if(cfg.glDFT){
+                if(Plasmoid.configuration.glDFT){
                     /*
                     waveBufferSE.newWave=imgsReady.w;
                     waveBufferSES.scheduleUpdate();
@@ -263,7 +263,7 @@ PlasmoidItem {
     property double time_fps_start:Date.now()
     property double time_prev_frame:Date.now()
     Behavior on animatedMinimum{
-        enabled:cfg.animateAutoHiding
+        enabled:Plasmoid.configuration.animateAutoHiding
         NumberAnimation {
             duration: 250
             easing.type: Easing.InCubic

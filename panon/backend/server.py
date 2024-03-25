@@ -8,18 +8,18 @@ import websockets
 from PIL import Image
 from . import spectrum
 from .decay import Decay
-from .source import Source as Source
+from .source import SoundCardSource as Source
 
 import sys
 server_port, device_index = sys.argv[1:]
 server_port = int(server_port)
-device_index = int(device_index)
-if device_index < 0:
-    device_index = None
+# device_index = int(device_index)
+#if device_index < 0:
+    #device_index = None
 
 spectrum_map = {}
 sample_rate = 44100
-spectrum_source = Source(spectrum.NUM_CHANNEL, sample_rate, device_index)
+spectrum_source = Source(spectrum.NUM_CHANNEL, sample_rate, device_index, 30)
 decay = Decay()
 
 spec = spectrum.Spectrum(spectrum_source, )

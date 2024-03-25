@@ -1,12 +1,14 @@
-#version 130
+#version 450
 
-out vec4 out_Color;
-in mediump vec2 qt_TexCoord0;
+layout(location=0) out vec4 out_Color;
+layout(location=0) in mediump vec2 qt_TexCoord0;
 
-uniform sampler2D waveBuffer; 
+layout(set = 0, binding = 0) uniform sampler2D waveBuffer; 
 
-uniform int     dftSize;
-uniform int     bufferSize;
+layout(std140, binding = 0) uniform buf_gldft {
+    int     dftSize;
+    int     bufferSize;
+};
 
 #define PI 3.14159265359
 

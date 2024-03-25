@@ -7,12 +7,12 @@ import org.kde.plasma.plasmoid 2.0
  * messages before the images of old messages are loaded.
  */
 
-// Item{
-PlasmoidItem {
+Item{
+//PlasmoidItem {
     // When only spectrum data is enabled, receive raw data to reduce cpu usage.
     property bool only_spectrum:false
 
-    readonly property var cfg:plasmoid.configuration
+    //readonly property var cfg:Plasmoid.configuration
 
     property variant imgsReady:pt0
 
@@ -26,7 +26,7 @@ PlasmoidItem {
         if(!imgsLoading.used)
             return
 
-        if(cfg.glDFT){
+        if(Plasmoid.configuration.glDFT){
             imgsLoading.used=false
             imgsLoading.w.source = 'data:' + message
         }else{

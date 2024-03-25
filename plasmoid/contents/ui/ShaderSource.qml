@@ -13,7 +13,6 @@ import "utils.js" as Utils
 // PlasmaCore.DataSource {
 Plasma5Support.DataSource {
 
-    readonly property var cfg:plasmoid.configuration
     engine: 'executable'
 
     property string image_shader_source:''
@@ -31,12 +30,12 @@ Plasma5Support.DataSource {
 
     readonly property string cmd:Utils.chdir_scripts_root()
         + 'python3 -m panon.effect.build_shader_source'
-        + ' '+Qt.btoa(JSON.stringify([cfg.visualEffect,cfg.effectArgValues]))
+        + ' '+Qt.btoa(JSON.stringify([Plasmoid.configuration.visualEffect,Plasmoid.configuration.effectArgValues]))
 
     connectedSources: [cmd]
 
     onNewData:{
-        if(cfg.debugBackend){
+        if(Plasmoid.configuration.debugBackend){
             console.log(cmd)
             console.log(data.stderr)
         }

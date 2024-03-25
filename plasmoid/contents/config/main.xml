@@ -28,7 +28,7 @@
       <default>true</default>
     </entry>
     <entry name="debugBackend" type="Bool">
-      <default>false</default>
+      <default>true</default>
     </entry>
     <entry name="bassResolutionLevel" type="Int">
       <default>4</default>
@@ -45,7 +45,7 @@
     </entry>
     -->
     <entry name="backendIndex" type="Int">
-      <default>0</default>
+      <default>1</default>
     </entry>
     <entry name="fifoPath" type="String">
       <default>/tmp/mpd.fifo</default>
